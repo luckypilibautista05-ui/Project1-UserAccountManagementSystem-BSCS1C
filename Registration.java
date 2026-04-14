@@ -1,15 +1,13 @@
-package UserManagementSystem;
+
 
 public class Registration extends javax.swing.JFrame {
 
-    
     public Registration() {
         initComponents();
     }
 
-    
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -82,7 +80,7 @@ public class Registration extends javax.swing.JFrame {
         jPanel1.add(jPanel2);
         jPanel2.setBounds(0, 0, 420, 760);
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI Black", 1, 36));
         jLabel4.setForeground(new java.awt.Color(0, 102, 102));
         jLabel4.setText("SIGN UP");
         jPanel1.add(jLabel4);
@@ -93,9 +91,7 @@ public class Registration extends javax.swing.JFrame {
         jLabel5.setBounds(500, 110, 100, 16);
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
+            public void actionPerformed(java.awt.event.ActionEvent evt) { }
         });
         jPanel1.add(jTextField1);
         jTextField1.setBounds(500, 140, 310, 30);
@@ -111,9 +107,7 @@ public class Registration extends javax.swing.JFrame {
         jLabel7.setBounds(500, 260, 100, 16);
 
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
+            public void actionPerformed(java.awt.event.ActionEvent evt) { }
         });
         jPanel1.add(jTextField3);
         jTextField3.setBounds(500, 290, 310, 30);
@@ -123,9 +117,7 @@ public class Registration extends javax.swing.JFrame {
         jLabel8.setBounds(500, 340, 90, 16);
 
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
+            public void actionPerformed(java.awt.event.ActionEvent evt) { }
         });
         jPanel1.add(jTextField4);
         jTextField4.setBounds(500, 370, 310, 30);
@@ -164,17 +156,13 @@ public class Registration extends javax.swing.JFrame {
         jButton2.setBounds(610, 660, 90, 40);
 
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
-            }
+            public void actionPerformed(java.awt.event.ActionEvent evt) { }
         });
         jPanel1.add(jPasswordField1);
         jPasswordField1.setBounds(500, 450, 310, 30);
 
         jPasswordField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField2ActionPerformed(evt);
-            }
+            public void actionPerformed(java.awt.event.ActionEvent evt) { }
         });
         jPanel1.add(jPasswordField2);
         jPasswordField2.setBounds(500, 520, 310, 30);
@@ -191,74 +179,75 @@ public class Registration extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
-
-    private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {                                                
-        
-    }                                               
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    // "Login" button — goes back to Login screen
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         Login LoginFrame = new Login();
         LoginFrame.setVisible(true);
         LoginFrame.pack();
         LoginFrame.setLocationRelativeTo(null);
         this.dispose();
-    }                                        
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-       // 1. Get the text from the password fields
-    String pass = new String(jPasswordField1.getPassword());
-    String confirmPass = new String(jPasswordField2.getPassword());
-
-    // 2. Check if they are empty
-    if (pass.isEmpty() || confirmPass.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Please fill in all fields!", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        return;
     }
 
-    // 3. Compare the two strings | Check whether the confirm password matches the password
-    if (pass.equals(confirmPass)) {
-    // if passwords match
-        javax.swing.JOptionPane.showMessageDialog(this, "Registration Successful!");
-        
-        // Return to Login screen after successful registration
+    // "Sign Up" button — validates all fields then saves the user to UserStore
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+        // Collect all input fields
+        String firstName  = jTextField1.getText().trim();
+        String lastName   = jTextField2.getText().trim();
+        String email      = jTextField3.getText().trim();
+        String username   = jTextField4.getText().trim();
+        String pass       = new String(jPasswordField1.getPassword());
+        String confirmPass = new String(jPasswordField2.getPassword());
+
+        // 1. Check all fields are filled
+        if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty()
+                || username.isEmpty() || pass.isEmpty() || confirmPass.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please fill up all fields!", "Error", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 2. Check email format
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        if (!email.matches(emailRegex)) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a valid email address!", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 3. Check password strength
+        String passRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=_!])(?=\\S+$).{8,}$";
+        if (!pass.matches(passRegex)) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Weak password! Must be 8+ chars with uppercase, lowercase, number, and special character (@#$%^&+=_!).",
+                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 4. Check passwords match
+        if (!pass.equals(confirmPass)) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Passwords do not match!", "Error", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 5. Check if username is already taken in UserStore
+        if (UserStore.usernameExists(username)) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Username already exists! Please choose another.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // 6. All validations passed — save the new user to UserStore
+        UserStore.addUser(new UserStore.User(firstName, lastName, email, username, pass));
+
+        // 7. Show success and redirect to Login
+        javax.swing.JOptionPane.showMessageDialog(this, "Registration Successful!", "Success", javax.swing.JOptionPane.INFORMATION_MESSAGE);
         Login LoginFrame = new Login();
         LoginFrame.setVisible(true);
         LoginFrame.pack();
         LoginFrame.setLocationRelativeTo(null);
         this.dispose();
-    } else {
-        // PASSWORDS DO NOT MATCH
-        javax.swing.JOptionPane.showMessageDialog(this, "Passwords do not match!", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        
-        // Clear only the confirmation field to try again
-        jPasswordField2.setText("");
-        jPasswordField2.requestFocus();
     }
-    }                                        
 
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {                                                
-        // TODO add your handling code here:
-    }                                               
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
-    }                                           
-
-    /**
-     * @param args the command line arguments
-     */
-
-
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -280,5 +269,5 @@ public class Registration extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    // End of variables declaration                   
+    // End of variables declaration//GEN-END:variables
 }

@@ -1,12 +1,10 @@
-package UserManagementSystem;
-
 public class UserManagementSystemJava {
 
     public static void main(String[] args) {
-        Login LoginFrame = new Login();
-        LoginFrame.setVisible(true);
-        LoginFrame.pack();
-        LoginFrame.setLocationRelativeTo(null); // center
+        Registration RegistrationFrame = new Registration();
+        RegistrationFrame.setVisible(true);
+        RegistrationFrame.pack();
+        RegistrationFrame.setLocationRelativeTo(null);   // center
     }
     
 }
